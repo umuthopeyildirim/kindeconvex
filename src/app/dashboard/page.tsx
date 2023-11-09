@@ -1,4 +1,10 @@
-export default function Dashboard() {
+import TaskList from "@/app/components/TaskList";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export default async function Dashboard() {
+  const { getAccessToken, isAuthenticated } = getKindeServerSession();
+  // console.log(await getAccessToken());
+  const auth = await isAuthenticated();
   return (
     <div className="container">
       <div className="card start-hero">
@@ -10,7 +16,8 @@ export default function Dashboard() {
         </p>
       </div>
       <section className="next-steps-section">
-        <h2 className="text-heading-1">Next steps for you</h2>
+        <h2 className="text-heading-1">Tasks</h2>
+        {auth ? <TaskList /> : <div>Not authenticated</div>}
       </section>
     </div>
   );
